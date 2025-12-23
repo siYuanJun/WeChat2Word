@@ -1,5 +1,6 @@
 
 export interface ScriptConfig {
+  urls: string[];
   includeImages: boolean;
   savePath: string;
   concurrency: number;

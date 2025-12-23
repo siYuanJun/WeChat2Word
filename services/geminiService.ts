@@ -5,9 +5,16 @@ import { ScriptConfig, GeneratedScript } from "../types";
 export const generatePythonScript = async (config: ScriptConfig): Promise<GeneratedScript> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
+  const urlsText = config.urls.length > 0 
+    ? `The user wants to process these specific URLs: ${config.urls.join(', ')}`
+    : "The user hasn't provided URLs yet, so include a placeholder list for them to fill in.";
+
   const prompt = `
     Generate a highly robust and professional Python script to batch download WeChat Official Account (微信公众号) articles from a list of URLs and convert them into .docx files.
     
+    Article URLs to include in the script:
+    ${urlsText}
+
     Configuration Requirements:
     - Include images: ${config.includeImages ? 'Yes (handle data-src attributes used by WeChat)' : 'No'}
     - Target directory: ${config.savePath}
@@ -19,10 +26,11 @@ export const generatePythonScript = async (config: ScriptConfig): Promise<Genera
     - Use 'requests' for networking.
     - Use 'BeautifulSoup4' for HTML parsing (focus on #js_content).
     - Use 'python-docx' for Word generation.
-    - Handle WeChat's specific lazy-loading image logic (data-src).
+    - IMPORTANT: WeChat images use 'data-src'. Ensure the script extracts these correctly.
     - Include a progress bar using 'tqdm'.
     - Implement error handling for invalid URLs or network failures.
     - Add clear comments in Chinese (Simplified).
+    - The script should iterate through the URL_LIST and save each article.
     
     Response Format: Return a JSON object with:
     1. 'code': The complete Python script.
