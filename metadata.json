@@ -1,0 +1,5 @@
+{
+  "name": "WeChat to Word Script Generator",
+  "description": "A powerful tool to generate custom Python scripts for batch exporting WeChat Official Account articles to high-quality Word documents, featuring image handling and formatting.",
+  "requestFramePermissions": []
+}
